@@ -18,8 +18,9 @@ function renderTable() {
             <div class='puppet head-p4'></div>
         </div>
         <div class='cell'>
-            <button class="result-button" type="button">Értékel</button>
+            <button class="result-button" disabled type="button">Értékel</button>
         </div>
+        <div class="hide-tag">
     </div>`;
     for (let i = 1; i < 11; i++) {
         table.innerHTML += `
@@ -72,7 +73,7 @@ function getRandomizeColor(array, count){
 
 
 // Kezdő véletlen-szíenk megjelenítése:
-const randomColors = getRandomizeColor(colors, 4);
+let randomColors = getRandomizeColor(colors, 4);
 const headPuppets = document.querySelectorAll(".head .puppet");
 
 for (let i = 0; i < headPuppets.length; i++) {
@@ -111,7 +112,7 @@ function renderResultSpikes(tippC, bvList) {
     const resultPuppets = document.querySelectorAll(`.result${tippC} .spike`);
     if (bvList.length > 0) {
         for (let i = 0; i < bvList.length; i++) {
-            if (bvList[i] === "b") {
+            if (bvList[i] === "w") {
                 resultPuppets[i].style.backgroundColor = `white`;
             } else {
                 resultPuppets[i].style.backgroundColor = `black`;
@@ -128,9 +129,9 @@ function evaluation(buttons, hideColors, bvList) {
             const found = Array.from(hideColors).find(hbutton => hbutton.style.backgroundColor === item.style.backgroundColor);
             if (found) {
                 if (found.classList[1].slice(-1) === item.classList[1].slice(-1)) {
-                    bvList.push("b");
-                } else {
                     bvList.push("w");
+                } else {
+                    bvList.push("b");
                 }
             }
         }
@@ -145,11 +146,58 @@ function evaluation(buttons, hideColors, bvList) {
 
 const resultButton = document.querySelector(".result-button");
 let tippCount = 1;
+// Értékelő gomb működése:
 resultButton.addEventListener("click", (event) => {
     const currentButtons = document.querySelectorAll(`.row${tippCount} .puppet`);
     console.log(currentButtons)
-let blackWhiteList = [];
+    let blackWhiteList = [];
     evaluation(currentButtons, headPuppets, blackWhiteList);
     console.log(blackWhiteList);
-    
+    if (blackWhiteList.length === 4) {
+        let whiteCount = 0;
+        blackWhiteList.forEach(color => {
+            if (color === "w") {
+                whiteCount += 1;
+            }
+        })
+        if (whiteCount === 4) {
+            hideTag.style.zIndex = "-1";
+            alert("Gratulálok! Ön kitalálta a színeket.");
+        } else if (tippCount > 10) {
+            alert("Sajnos nem sikerült kitalálnia az elrejtett színeket!");
+            hideTag.style.zIndex = "-1";
+        }
+    }
+});
+
+// Kezdés gomb:
+const startButton = document.querySelector(".start");
+const hideTag = document.querySelector(".hide-tag");
+startButton.addEventListener("click", (event) => {
+    // Értékelő gomb inaktív:
+    resultButton.disabled = false;
+
+    // Tippelő bábuk eltávolítása:
+    const puppets = document.querySelectorAll(".row .puppet");
+    puppets.forEach(puppet => {
+        puppet.style.backgroundColor = "";
+    });
+
+    // Jelző tüskék eltávolsítása:
+    const spikes = document.querySelectorAll(".spike");
+    spikes.forEach(spike => {
+        spike.style.backgroundColor = "";
+    })
+
+    // Kitalálandó kombináció letakarása:
+    hideTag.style.zIndex = "2";
+
+    // Kitalálandó színek keverése:
+    randomColors = getRandomizeColor(colors, 4);
+    for (let i = 0; i < headPuppets.length; i++) {
+        headPuppets[i].style.backgroundColor = randomColors[i];
+        console.log(headPuppets[i]);
+    }
+
+
 });

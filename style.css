@@ -83,6 +83,16 @@ header{
     background-color: var(--head-color);
     border-bottom: 1px solid #000;
     border-radius: 5px 5px 0 0;
+    position: relative;
+}
+.hide-tag{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3rem;
+    width: 14rem;
+    background-color: var(--head-color);
+    z-index: -1;
 }
 .cell{    
     display: flex;
