@@ -1,16 +1,17 @@
 *{margin: 0; padding:0; box-sizing: border-box;}
 :root{
-    --head-color: rgb(53, 52, 52);
-    --table-bg-color: rgb(219,213,181);
-    --start-bg-color: rgb(68, 175, 105);
+    --head-color: rgb(87, 86, 86);
+    --table-bg-color: rgb(180, 178, 167);
+    --start-bg-color: rgb(125, 210, 216);
     --footer-header:rgba(100,100,100,9);
+    --start-result-button-hover:rgb(57, 139, 145);
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
     background: url("./img/body-bg.jpg") no-repeat;
     background-size: cover;
 }
-body::before{
+body::before{ /*Háttérkép fakítása*/
     content:"";
     position:absolute;
     top:0; left:0; right:0; bottom: 0;
@@ -30,6 +31,9 @@ header{
     text-shadow: 1px 1px 1px #000;
 }
 
+main i{
+    font-size:2rem;
+}
 .container{
     height: 80vh;
     display: flex;
@@ -51,14 +55,16 @@ header{
 .start{
     background-color: var(--start-bg-color);
     box-shadow: 0 0 10px 2px rgba(50,50,50,.9);
+    border:none;
 }
 .start:hover{
-    background-color: rgb(38, 95, 58);
+    background-color: var(--start-result-button-hover);
     color:#fff;
 }
 .end{
     background-color: rgb(248,51,60);
     box-shadow: 0 0 10px 2px rgba(50,50,50,.9);
+    border:none;
 }
 .end:hover{
     background-color: rgb(145, 28, 34);
@@ -85,6 +91,10 @@ header{
     border-radius: 5px 5px 0 0;
     position: relative;
 }
+.head .cell:nth-child(1){
+    border-radius: 5px 0 0 0;
+}
+/*
 .hide-tag{
     position: absolute;
     top: 0;
@@ -94,6 +104,7 @@ header{
     background-color: var(--head-color);
     z-index: -1;
 }
+*/
 .cell{    
     display: flex;
     justify-content: center;
@@ -108,7 +119,7 @@ header{
     border-radius: 5px;
 }
 .result-button:hover{
-    background-color: rgb(38, 95, 58);
+    background-color: var(--start-result-button-hover);
     color:#fff;
 }
 .result-cell{
@@ -123,6 +134,9 @@ header{
 .result-cell.result10{
     border-radius: 0 0 5px 0;
 }
+.row{
+    border-top: 1px solid #000;
+}
 .puppet{
     width: 2.5rem;
     height: 2.5rem;   
@@ -136,7 +150,7 @@ header{
 }
 .puppet, .spike{
     box-shadow: 0 0 10px 1px rgba(100,100,100,.5);
-    border: 1px solid rgba(100,100,100,.9);
+    border: 1px solid rgba(31, 30, 30, 0.9);
     border-radius: 50%;
 }
 

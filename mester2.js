@@ -20,6 +20,7 @@ function renderTable() {
         <div class='cell'>
             <button class="result-button" disabled type="button">Értékel</button>
         </div>
+        <div class="hide-tag">
     </div>`;
     for (let i = 1; i < 11; i++) {
         table.innerHTML += `
@@ -57,8 +58,6 @@ renderTable();
 // Kezdő véletlen-színek kiválasztása:
 const colors = ["rgb(248,51,60)", "rgb(34, 139, 34)", "rgb(252,171,16)","rgb(43,158,179)", "rgb(0,0,255)","rgb(255, 105, 180)"];
 
-const colors1 = ["rgb(248,51,60)", "rgb(34, 139, 34)", "rgb(252,171,16)","rgb(43,158,179)", "rgb(0,0,255)","rgb(255, 105, 180)"];
-
 function shuffleArray(array){
     for (let i = array.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i+1));
@@ -85,17 +84,16 @@ for (let i = 0; i < headPuppets.length; i++) {
 // Tippelés kattintásokkal: Bárhol tippelhet, de csak a soron következőben fogadom el!
 // Változóban figyelem, hogy hol tartunk.
 const tippPuppets = document.querySelectorAll(".row .puppet");
-
+let j = 0;
 
 tippPuppets.forEach(puppet => {
-    let j = 0;
     puppet.addEventListener("click", (event) => {
-        if (j <= colors1.length-1)
+        if (j <= colors.length-1)
         {
-            event.target.style.backgroundColor = `${colors1[j]}`;
+            event.target.style.backgroundColor = `${colors[j]}`;
         } else {
             j = 0;
-            event.target.style.backgroundColor = `${colors1[j]}`;
+            event.target.style.backgroundColor = `${colors[j]}`;
         }
         j++;
     })
@@ -163,20 +161,18 @@ resultButton.addEventListener("click", (event) => {
             }
         })
         if (whiteCount === 4) {
-            // hideTag.style.zIndex = "-1";
+            hideTag.style.zIndex = "-1";
             alert("Gratulálok! Ön kitalálta a színeket.");
         } else if (tippCount > 10) {
             alert("Sajnos nem sikerült kitalálnia az elrejtett színeket!");
+            hideTag.style.zIndex = "-1";
         }
-        headPuppets.forEach(puppet => {
-            puppet.style.zIndex = 0;
-        })
     }
 });
 
 // Kezdés gomb:
 const startButton = document.querySelector(".start");
-// const hideTag = document.querySelector(".hide-tag");
+const hideTag = document.querySelector(".hide-tag");
 startButton.addEventListener("click", (event) => {
     // Értékelő gomb inaktív:
     resultButton.disabled = false;
@@ -194,11 +190,7 @@ startButton.addEventListener("click", (event) => {
     })
 
     // Kitalálandó kombináció letakarása:
-    // hideTag.style.zIndex = "2";
-    // console.log(colors)
-    headPuppets.forEach(puppet => {
-        puppet.style.zIndex = -1;
-    })
+    hideTag.style.zIndex = "2";
 
     // Kitalálandó színek keverése:
     randomColors = getRandomizeColor(colors, 4);
